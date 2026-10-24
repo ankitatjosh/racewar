@@ -31,6 +31,8 @@ After you change `index.html`, bump `VERSION` at the top of `sw.js` (for example
 
 ## Mobile behaviour
 - On phones the game always plays in **landscape**. It goes fullscreen and locks the orientation on start (Android/Chrome, or an installed app). Where the lock isn't supported (iOS Safari), the game rotates itself.
-- The HUD is just **score + speed** in a slim top bar, plus 4 touch buttons. All notifications appear as small snackbars in the top bar.
+- The HUD is **score + speed** in a slim top bar, with a transparent **radar** under the speed (top-right), plus 4 touch buttons. On the right, a thumb column holds **E** (zoom), **C** (first / third person) and **sound**.
+- All notifications appear as small snackbars in the top bar. Prompts that need a tap (Quiz **PLAY**, Car Shop **ENTER**) slide up from the bottom and disappear after 2 seconds. If a prompt times out, drive off and stop on the pad again to bring it back.
+- On mobile the Quiz Stop and Car Shop pads are larger and accept a slower roll-to-stop, so they're easy to trigger with touch controls.
 - Crashes, pedestrian hits, gem pickups, Overdrive and laps vibrate the phone. Android supports vibration. iOS Safari does not allow web vibration, so it is skipped there.
 - Add `?mobile=1` or `?mobile=0` to the URL to force the mobile or desktop layout.

@@ -4,7 +4,7 @@
  * - CDN libraries (three.js, d3, tailwind, fonts, icons): stale-while-revalidate
  * Bump VERSION whenever you deploy a new index.html.
  */
-const VERSION = 'resume-racer-v5-1';
+const VERSION = 'resume-racer-v5-3';
 const CDN_CACHE = VERSION + '-cdn';
 const APP_SHELL = [
     './',

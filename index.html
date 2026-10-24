@@ -267,7 +267,7 @@
     <style id="v5-mobile-styles">
         /* ===== v5 add-on: mobile layout (only active when body.v5-mobile) ===== */
         html, body { overscroll-behavior: none; }
-        #m-topbar, #m-controls, #m-hitflash { display: none; }
+        #m-topbar, #m-controls, #m-side, #m-radar, #m-actions, #m-hitflash { display: none; }
         body.v5-mobile { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
         body.v5-mobile .m-hide { display: none !important; }
         body.v5-mobile #landscape-root {
@@ -279,6 +279,8 @@
             transform: rotate(90deg) translateY(-100%);
         }
         body.v5-mobile #canvas-container { touch-action: none; }
+        /* Livelier colour on phone screens */
+        body.v5-mobile #canvas-container canvas { filter: saturate(1.15) contrast(1.06) brightness(1.03); }
 
         /* Top bar: score · snackbars · speed */
         body.v5-mobile #m-topbar {
@@ -295,7 +297,14 @@
         .m-pill small { font-size: 8px; color: #94a3b8; letter-spacing: .08em; }
         .m-star { color: #fbbf24; font-size: 12px; }
         .m-score span { color: #fbbf24; }
-        .m-speed span { color: #22d3ee; min-width: 28px; text-align: right; }
+        .m-speed span { color: #22d3ee; min-width: 2.2em; text-align: right; }
+        /* Score + speed text: +4px on medium screens, +2px on small ones */
+        body.v5-mobile .m-pill { font-size: 17px; }
+        body.v5-mobile .m-pill small { font-size: 12px; }
+        body.v5-mobile .m-star { font-size: 16px; }
+        body.v5-mobile.m-small .m-pill { font-size: 15px; }
+        body.v5-mobile.m-small .m-pill small { font-size: 10px; }
+        body.v5-mobile.m-small .m-star { font-size: 14px; }
         #m-snacks { flex: 1; min-width: 0; height: 30px; position: relative; display: flex; justify-content: center; }
         .m-snack {
             position: absolute; top: 2px; max-width: 100%; height: 26px; padding: 0 6px 0 9px; border-radius: 9999px;
@@ -313,32 +322,74 @@
             font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 900; letter-spacing: .06em;
         }
 
+        /* Action prompts (PLAY / ENTER): slide up from the bottom, same size as before */
+        body.v5-mobile #m-actions {
+            display: flex; justify-content: center; position: fixed; z-index: 46; pointer-events: none;
+            left: 50%; transform: translateX(-50%); bottom: max(18px, env(safe-area-inset-bottom));
+            width: min(34%, 380px); height: 30px;
+        }
+        #m-actions .m-snack { transform: translateY(80px); }
+        #m-actions .m-snack.in { transform: none; }
+
         /* 4 touch buttons */
+        body.v5-mobile { --m-act: 46px; }
         body.v5-mobile #m-controls {
             display: flex; justify-content: space-between; align-items: flex-end;
             position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; pointer-events: none;
-            padding: 0 max(16px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+            padding: 0 calc(max(16px, env(safe-area-inset-right)) + var(--m-act) + 12px) max(14px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
         }
-        body.v5-mobile.v5-modal #m-controls { display: none; }
+        body.v5-mobile.v5-modal #m-controls, body.v5-mobile.v5-modal #m-side, body.v5-mobile.v5-modal #m-radar { display: none; }
         .m-group { display: flex; gap: 14px; align-items: flex-end; }
+
+        /* Radar: top-right, under the speedometer */
+        body.v5-mobile #m-radar {
+            display: block; position: fixed; z-index: 45; pointer-events: none;
+            top: calc(max(6px, env(safe-area-inset-top)) + 36px); right: max(8px, env(safe-area-inset-right));
+            width: 116px; height: 74px;
+        }
+        body.v5-mobile.m-small #m-radar { width: 104px; height: 66px; }
+        #m-radar svg { display: block; width: 100%; height: 100%; }
+        #m-radar #d3-minimap > rect:first-child { fill: transparent; }
+
+        /* Right column: E / C / sound buttons */
+        body.v5-mobile #m-side {
+            display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+            position: fixed; z-index: 45; pointer-events: none;
+            right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom));
+        }
+        .m-acts { display: flex; flex-direction: column; gap: 8px; }
+        .m-act {
+            pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none;
+            width: var(--m-act); height: var(--m-act); border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+            background: rgba(15, 23, 42, .62); border: 2px solid rgba(148, 163, 184, .5); color: #e2e8f0; font-size: 15px;
+            transition: transform .06s ease, background .06s ease, opacity .2s ease;
+        }
+        .m-act small { font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; line-height: 1; }
+        .m-act:active { transform: scale(.9); }
+        .m-act.on { background: rgba(34, 211, 238, .35); border-color: #22d3ee; color: #67e8f9; }
+        .m-act.off { opacity: .45; }
+
         .m-btn {
             pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none;
-            width: 70px; height: 70px; border-radius: 50%;
+            width: 84px; height: 84px; border-radius: 50%;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
             background: rgba(15, 23, 42, .5); border: 2px solid rgba(148, 163, 184, .5); color: #fff; font-size: 24px;
             backdrop-filter: blur(6px); transition: transform .06s ease, background .06s ease;
         }
         .m-btn small { font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; letter-spacing: .08em; }
-        .m-btn.gas { width: 84px; height: 84px; border-color: #22d3ee; color: #67e8f9; }
+        .m-btn.gas { width: 98px; height: 98px; border-color: #22d3ee; color: #67e8f9; }
         .m-btn.brake { border-color: #fb7185; color: #fda4af; }
         .m-btn.on { transform: scale(.9); background: rgba(34, 211, 238, .35); }
         .m-btn.brake.on { background: rgba(251, 113, 133, .35); }
         @media (max-height: 360px) {
-            .m-btn { width: 60px; height: 60px; font-size: 20px; }
-            .m-btn.gas { width: 72px; height: 72px; }
+            .m-btn { width: 74px; height: 74px; font-size: 20px; }
+            .m-btn.gas { width: 86px; height: 86px; }
+            body.v5-mobile { --m-act: 42px; }
         }
-        body.v5-mobile.force-landscape .m-btn { width: 60px; height: 60px; }
-        body.v5-mobile.force-landscape .m-btn.gas { width: 72px; height: 72px; }
+        body.v5-mobile.force-landscape .m-btn { width: 74px; height: 74px; }
+        body.v5-mobile.force-landscape .m-btn.gas { width: 86px; height: 86px; }
+        body.v5-mobile.force-landscape { --m-act: 42px; }
 
         body.v5-mobile #m-hitflash { display: block; position: fixed; inset: 0; z-index: 44; pointer-events: none; opacity: 0; }
 
@@ -6897,8 +6948,12 @@
             frame: 0, lastSnack: {}, lastBoards: 0,
             fps: { n: 0, t: 0, low: 0, high: 0 }, dpr: 1, maxDpr: 2, minDpr: 0.85,
             runners: [], crowds: [], sim: null, simBusy: false, simAcc: 0, simGen: 0, simState: null,
-            allowOpen: false, lastScore: null, lastSpeed: null, deferredInstall: null
+            allowOpen: false, lastScore: null, lastSpeed: null, deferredInstall: null,
+            rearm: { quiz: false, shop: false }, stopT: { quiz: 0, shop: 0 }, acts: null, lastMuted: null, shopCol: null
         };
+        // Touch-friendly station zones (mobile only): bigger pads, looser stop check
+        const TOUCH_STATIONS = { quiz: { radius: 10.5, padScale: 1.7 }, shop: { radius: 13.5, padScale: 2 }, maxSpeed: 2.5, hold: 0.3 };
+        const ACTION_PROMPT_MS = 2000;
 
         /* ---------- haptics (Vibration API — no-op on desktop) ---------- */
         function haptic(pattern) {
@@ -6919,11 +6974,10 @@
         /* ---------- top-bar snackbars (mobile) ---------- */
         function snack(text, color = '#22d3ee', action = null, ms = 2600) {
             if (!MOBILE) return;
-            const wrap = document.getElementById('m-snacks');
+            // Action prompts (PLAY / ENTER) slide up from the bottom; notifications stay in the top bar
+            const wrap = document.getElementById(action ? 'm-actions' : 'm-snacks');
             if (!wrap) return;
             const now = performance.now();
-            // Snackbars with an action (PLAY / ENTER) stay until tapped or expired
-            if (!action && wrap.querySelector('.m-snack.has-action:not(.out)')) return;
             if (!action && v5.lastSnack[text] && now - v5.lastSnack[text] < 4000) return;
             v5.lastSnack[text] = now;
             const el = document.createElement('div');
@@ -6931,18 +6985,28 @@
             el.style.setProperty('--c', color);
             el.innerHTML = '<span class="dot"></span><span class="txt"></span>';
             el.querySelector('.txt').textContent = text;
+            let done = false;
             const dismiss = () => { el.classList.add('out'); el.classList.remove('in'); setTimeout(() => el.remove(), 260); };
             if (action) {
                 el.classList.add('has-action');
                 const b = document.createElement('button');
                 b.textContent = action.label;
-                b.addEventListener('pointerdown', ev => { ev.preventDefault(); ev.stopPropagation(); dismiss(); action.fn(); });
+                // 'click' (not pointerdown) so the rest of the tap can't land on the panel it opens
+                b.addEventListener('click', ev => {
+                    ev.preventDefault(); ev.stopPropagation();
+                    if (done) return;
+                    done = true; dismiss(); action.fn();
+                });
                 el.appendChild(b);
             }
             [...wrap.children].forEach(c => { c.classList.add('out'); c.classList.remove('in'); setTimeout(() => c.remove(), 260); });
             wrap.appendChild(el);
             requestAnimationFrame(() => el.classList.add('in'));
-            setTimeout(dismiss, ms);
+            setTimeout(() => {
+                if (done) return;
+                done = true; dismiss();
+                if (action && action.expire) action.expire();
+            }, ms);
         }
 
         /* ---------- wrappers: notifications + haptics ---------- */
@@ -6986,8 +7050,9 @@
             if (MOBILE && !v5.allowOpen) {
                 if (extras.quizShop) extras.quizShop.armed = false;
                 snack('❓ Quiz Stop — 3 Yes/No questions, +100 pts each', '#f59e0b', {
-                    label: 'PLAY', fn: () => { v5.allowOpen = true; _v5OpenQuiz(); v5.allowOpen = false; }
-                }, 10000);
+                    label: 'PLAY', fn: () => { v5.allowOpen = true; _v5OpenQuiz(); v5.allowOpen = false; },
+                    expire: () => { v5.rearm.quiz = true; }
+                }, ACTION_PROMPT_MS);
                 return;
             }
             return _v5OpenQuiz();
@@ -6997,8 +7062,9 @@
             if (MOBILE && !v5.allowOpen) {
                 if (extras.carShop) extras.carShop.armed = false;
                 snack('🏪 NOVA AI Car Shop — trade points for a new ride', '#e879f9', {
-                    label: 'ENTER', fn: () => { v5.allowOpen = true; _v5OpenAiShop(); v5.allowOpen = false; }
-                }, 10000);
+                    label: 'ENTER', fn: () => { v5.allowOpen = true; _v5OpenAiShop(); v5.allowOpen = false; },
+                    expire: () => { v5.rearm.shop = true; }
+                }, ACTION_PROMPT_MS);
                 return;
             }
             return _v5OpenAiShop();
@@ -7144,7 +7210,42 @@
             extras.runners = [];
             extras.crowds = [];
             initPeopleSim();
+            if (MOBILE) enlargeStationsForTouch();
         };
+
+        /* ---------- touch-friendly Quiz Stop + Car Shop (mobile) ---------- */
+        function enlargeStationsForTouch() {
+            const qs = extras.quizShop, cs = extras.carShop;
+            v5.rearm.quiz = v5.rearm.shop = false;
+            v5.stopT.quiz = v5.stopT.shop = 0;
+            v5.shopCol = null;
+            if (qs) qs.pad.scale.setScalar(TOUCH_STATIONS.quiz.padScale);
+            if (cs) {
+                cs.pad.scale.setScalar(TOUCH_STATIONS.shop.padScale);
+                cs.beam.scale.set(2.5, 1, 2.5);
+                cs.beam.material.opacity = 0.3;
+                // Glowing column over the drive-in pad so it reads from a distance
+                const col = new THREE.Mesh(new THREE.CylinderGeometry(TOUCH_STATIONS.shop.radius, TOUCH_STATIONS.shop.radius, 6, 40, 1, true),
+                    new THREE.MeshBasicMaterial({ color: 0xe879f9, transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+                col.position.set(cs.pad.position.x, 3, cs.pad.position.z);
+                cs.group.add(col);
+                v5.shopCol = col;
+            }
+        }
+        function updateTouchStations(dt) {
+            if (v5.shopCol) v5.shopCol.material.opacity = 0.12 + Math.sin(extras.time * 4) * 0.06;
+            if (extras.mode !== 'drive' || !gameState.started) return;
+            const car = gameState.car, spd = Math.abs(car.speed);
+            [['quiz', extras.quizShop, openQuiz], ['shop', extras.carShop, openAiShop]].forEach(([k, st, open]) => {
+                if (!st) return;
+                // A prompt that timed out re-arms once the car moves, so stopping again re-offers it
+                if (v5.rearm[k] && spd > TOUCH_STATIONS.maxSpeed) { st.armed = true; v5.rearm[k] = false; }
+                if (st.armed && spd < TOUCH_STATIONS.maxSpeed && car.position.distanceTo(st.padPos) < TOUCH_STATIONS[k].radius) {
+                    v5.stopT[k] += dt;
+                    if (v5.stopT[k] > TOUCH_STATIONS.hold) { v5.stopT[k] = 0; open(); }
+                } else v5.stopT[k] = 0;
+            });
+        }
 
         function updatePeople(dt) {
             const sdt = dt * worldTimeScale;
@@ -7239,6 +7340,7 @@
                     <div id="m-snacks"></div>
                     <div class="m-pill m-speed"><span id="m-speed">0</span><small>KM/H</small></div>
                 </div>
+                <div id="m-radar"></div>
                 <div id="m-controls">
                     <div class="m-group">
                         <button class="m-btn" data-m="left" aria-label="Steer left"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -7249,6 +7351,14 @@
                         <button class="m-btn gas" data-m="up" aria-label="Accelerate"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg><small>GAS</small></button>
                     </div>
                 </div>
+                <div id="m-side">
+                    <div class="m-acts">
+                        <button class="m-act" data-act="zoom" aria-label="Zoom view (E)"><i class="fa-solid fa-magnifying-glass-plus"></i><small>E</small></button>
+                        <button class="m-act" data-act="cam" aria-label="Switch first / third person view (C)"><i class="fa-solid fa-video"></i><small>C</small></button>
+                        <button class="m-act" data-act="sound" aria-label="Sound on / off"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+                </div>
+                <div id="m-actions"></div>
                 <div id="m-hitflash"></div>`);
 
             root.querySelectorAll('.m-btn').forEach(btn => {
@@ -7265,6 +7375,26 @@
                 ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(ev => btn.addEventListener(ev, release));
                 btn.addEventListener('contextmenu', e => e.preventDefault());
             });
+
+            // Right column: same actions as the E / C keys and the desktop mute button
+            v5.acts = {};
+            root.querySelectorAll('.m-act').forEach(btn => {
+                const act = btn.getAttribute('data-act');
+                v5.acts[act] = btn;
+                btn.addEventListener('pointerdown', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    haptic(8);
+                    if (act === 'zoom') toggleBillboardZoom();
+                    else if (act === 'cam') toggleCockpit();
+                    else if (act === 'sound') { const b = document.getElementById('btn-audio'); if (b) b.click(); }
+                });
+                btn.addEventListener('contextmenu', e => e.preventDefault());
+            });
+
+            // Radar: reuse the live D3 mini-map under the speedometer (top-right)
+            const radar = document.getElementById('d3-minimap');
+            if (radar) document.getElementById('m-radar').appendChild(radar);
 
             // Hide desktop HUD panels, maps and pop-ups on mobile
             const hide = (el) => el && el.classList.add('m-hide');
@@ -7304,6 +7434,7 @@
             document.documentElement.style.setProperty('--app-w', (portrait ? h : w) + 'px');
             document.documentElement.style.setProperty('--app-h', (portrait ? w : h) + 'px');
             document.body.classList.toggle('force-landscape', portrait);
+            document.body.classList.toggle('m-small', (portrait ? w : h) <= 360);
             return { W: portrait ? h : w, H: portrait ? w : h };
         }
         function updateLandscape() {
@@ -7322,6 +7453,17 @@
             const kmh = Math.round(Math.abs(gameState.car.speed) * 2.2);
             if (kmh !== v5.lastSpeed) { v5.lastSpeed = kmh; document.getElementById('m-speed').textContent = kmh; }
             document.body.classList.toggle('v5-modal', extras.mode !== 'drive' || !gameState.started);
+            const a = v5.acts;
+            if (a) {
+                a.zoom.classList.toggle('off', !gameState.nearbyBillboard);
+                a.zoom.classList.toggle('on', !!(gameState.isZoomReading && gameState.nearbyBillboard));
+                a.cam.classList.toggle('on', !!gameState.cockpit);
+                if (soundFX.isMuted !== v5.lastMuted) {
+                    v5.lastMuted = soundFX.isMuted;
+                    a.sound.classList.toggle('off', v5.lastMuted);
+                    a.sound.firstElementChild.className = v5.lastMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+                }
+            }
             // Billboard discoveries → snackbar
             const boards = gameState.visitedBillboards.size;
             if (boards > v5.lastBoards && gameState.nearbyBillboard) {
@@ -7340,6 +7482,7 @@
             if (v5.frame % 10 === 0) cullByDistance();
             if (MOBILE) {
                 updateMobileHud();
+                updateTouchStations(Math.min(realDt, 0.05));
                 if (v5.frame % 30 === 0 && typeof weatherSystem !== 'undefined' && weatherSystem) weatherSystem.geometry.setDrawRange(0, 1100);
             }
         }
@@ -7353,9 +7496,10 @@
         const _v5InitThreeScene = initThreeScene;
         initThreeScene = function () {
             _v5InitThreeScene();
-            v5.maxDpr = MOBILE ? Math.min(window.devicePixelRatio || 1, 1.5) : Math.min(window.devicePixelRatio || 1, 2);
-            v5.minDpr = MOBILE ? 0.6 : 0.85;
-            v5.dpr = MOBILE ? Math.min(window.devicePixelRatio || 1, 1.25) : renderer.getPixelRatio();
+            v5.maxDpr = Math.min(window.devicePixelRatio || 1, 2);
+            // Phones never drop below native CSS resolution, so the scene stays crisp
+            v5.minDpr = MOBILE ? Math.min(1, v5.maxDpr) : 0.85;
+            v5.dpr = MOBILE ? Math.min(window.devicePixelRatio || 1, 1.75) : renderer.getPixelRatio();
             if (MOBILE) {
                 applyDpr(v5.dpr);
                 // Lighter shadows on phones
