@@ -494,7 +494,7 @@
                         <input
                             type="text"
                             id="driver-name"
-                            placeholder="e.g. Alex Mercer"
+                            placeholder="e.g. Ankit Singh.."
                             maxlength="24"
                             required
                             class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 font-medium text-sm"
@@ -512,7 +512,7 @@
                     </div>
 
                     <!-- Feature Highlights -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-slate-300 bg-slate-900/80 border border-slate-800 rounded-2xl p-3">
+                    <!-- <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-slate-300 bg-slate-900/80 border border-slate-800 rounded-2xl p-3">
                         <div class="flex items-start gap-2">
                             <i class="fa-solid fa-mountain-sun text-emerald-400 mt-0.5"></i>
                             <span><strong class="text-white">Free-Land Roaming:</strong> Drive anywhere off-track! Discover hidden Free-Land Info Billboards in the mountains & forests.</span>
@@ -525,7 +525,7 @@
                             <i class="fa-solid fa-car-burst text-rose-400 mt-0.5"></i>
                             <span><strong class="text-white">Rivals & Crashes:</strong> 4 AI racers, trees & sandstorms. Each crash costs 500 pts and swaps your car; hit 0 and it's Game Over.</span>
                         </div>
-                    </div>
+                    </div> -->
 
                     <button
                         type="submit"
@@ -789,7 +789,7 @@
     </aside>
 
     <!-- JSON Billboard Configuration Modal -->
-    <div id="json-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
+    <!-- <div id="json-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
         <div class="glass-panel max-w-3xl w-full rounded-3xl p-6 border border-cyan-500/40 shadow-2xl flex flex-col max-h-[90vh]">
             <div class="flex items-center justify-between border-b border-slate-700 pb-3">
                 <div>
@@ -829,7 +829,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Round Complete / Notification Toast -->
     <div id="lap-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-30 pointer-events-none opacity-0 transition-all duration-500 transform -translate-y-4">
@@ -1014,255 +1014,586 @@
             </svg>`;
             return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
         }
+        
+const DEFAULT_BILLBOARD_CONFIG = [
+    // --- 6 ON-TRACK RESUME BILLBOARDS ---
+    {
+        id: 'profile',
+        locationType: 'track',
+        t: 0.10,
+        side: -1,
+        tag: '01 // PROFESSIONAL PROFILE',
+        title: 'ANKITKUMAR SINGH',
+        subtitle: 'Senior Frontend Engineer | Angular Specialist | 7 Years Experience',
+        accent: '#06b6d4',
+        badges: ['7 Years Experience', 'Angular Specialist', 'Frontend Engineer'],
+        imageUrl: makeSvgDataUri(
+            'ANKITKUMAR SINGH',
+            'Senior Frontend Engineer',
+            '#0891b2',
+            '#1e3a8a',
+            'AS'
+        ),
+        bullets: [
+            '7 years building high-performance Angular applications across fintech, enterprise SaaS, and identity management',
+            'Specialized in scalable component libraries, complex dashboards, and REST API integrations',
+            'Published 2 Chrome extensions and founded MahaWiki, a 300+ member tech community',
+            'Location: Pune, India | Email: thedevankit@gmail.com | Phone: +91 8485049578'
+        ]
+    },
+    {
+        id: 'skills',
+        locationType: 'track',
+        t: 0.25,
+        side: 1,
+        tag: '02 // TECHNICAL ARSENAL',
+        title: 'CORE SKILLS & TECHNOLOGY',
+        subtitle: 'Angular Engineering, UI Architecture & Full-Stack Development',
+        accent: '#3b82f6',
+        badges: ['Angular 8–14', 'TypeScript', 'RxJS', 'REST APIs', '.NET Core'],
+        imageUrl: makeSvgDataUri(
+            'ANGULAR STACK',
+            'TypeScript • RxJS • .NET',
+            '#2563eb',
+            '#0f172a',
+            'NG'
+        ),
+        bullets: [
+            'Frontend: Angular 8–14, TypeScript, JavaScript ES6+, HTML5, SCSS, CSS3',
+            'UI Libraries: Angular Material, Kendo UI, Bootstrap, Angular Flex Layout',
+            'Backend & APIs: Node.js, Express.js, .NET Core, C#, Entity Framework, REST APIs',
+            'Engineering: Lazy Loading, Component Architecture, Karma/Jasmine, Agile/Scrum, Code Reviews'
+        ]
+    },
+    {
+        id: 'exp1',
+        locationType: 'track',
+        t: 0.42,
+        side: -1,
+        tag: '03 // CURRENT EXPERIENCE',
+        title: 'SENIOR ENGINEER @ JOSH SOFTWARE',
+        subtitle: 'OCT 2021 — PRESENT | Fintech & Enterprise Applications',
+        accent: '#10b981',
+        badges: ['Angular 14', '10% Faster Loads', '100+ Tech Sessions'],
+        imageUrl: makeSvgDataUri(
+            'JOSH SOFTWARE',
+            'Senior Software Engineer',
+            '#059669',
+            '#064e3b',
+            'JS'
+        ),
+        bullets: [
+            'Leading frontend modules for fintech and enterprise applications using Angular 14',
+            'Improved Banor Capital application load times by 10% using module splitting and lazy loading',
+            'Architected reusable component libraries with a 30% smart / 10% dumb component strategy',
+            'Published 2 Chrome extensions and delivered 100+ workshops, technical sessions, and webinars'
+        ]
+    },
+    {
+        id: 'exp2',
+        locationType: 'track',
+        t: 0.58,
+        side: 1,
+        tag: '04 // PREVIOUS EXPERIENCE',
+        title: 'SOFTWARE ENGINEER @ ARESS',
+        subtitle: 'JUN 2019 — OCT 2021 | Angular & .NET Core',
+        accent: '#f59e0b',
+        badges: ['Full-Stack Development', 'Enterprise PWA', 'UK Clients'],
+        imageUrl: makeSvgDataUri(
+            'ARESS SOFTWARE',
+            'Software Engineer',
+            '#d97706',
+            '#451a03',
+            'AR'
+        ),
+        bullets: [
+            'Built full-stack applications using Angular 8–10 and .NET Core in Agile teams of 3–8',
+            'Developed ActivPulse productivity monitoring dashboards for 100+ employees',
+            'Built SocioDesk, an enterprise collaboration PWA used by 200+ internal employees',
+            'Collaborated directly with UK-based clients on requirements, sprint planning, and delivery'
+        ]
+    },
+    {
+        id: 'projects',
+        locationType: 'track',
+        t: 0.74,
+        side: -1,
+        tag: '05 // FEATURED PROJECTS',
+        title: 'PRODUCTS & ENGINEERING',
+        subtitle: 'Fintech, Digital Identity & AI-Powered Developer Tools',
+        accent: '#a855f7',
+        badges: ['Banor Capital', 'Signzy', 'ReviewMe.Tech'],
+        imageUrl: makeSvgDataUri(
+            'PROJECT LAB',
+            'Enterprise Apps & AI Products',
+            '#9333ea',
+            '#3b0764',
+            'PL'
+        ),
+        bullets: [
+            'Banor Capital: Wealth management platform covering funds, FX hedging, trading, and risk management',
+            'Signzy: Integrated digital KYC APIs for identity verification across 5+ major Indian banks',
+            'VAMS: Role-based visitor access management with QR entry and real-time security dashboards',
+            'ReviewMe.Tech: AI-powered profile review and learning platform; organically grew to 100+ users'
+        ]
+    },
+    {
+        id: 'education',
+        locationType: 'track',
+        t: 0.90,
+        side: 1,
+        tag: '06 // EDUCATION & RECOGNITION',
+        title: 'ENGINEERING & INNOVATION',
+        subtitle: 'Savitribai Phule Pune University | Government Polytechnic, Nashik',
+        accent: '#ec4899',
+        badges: ['GopherCon 2024', 'Innovation Fest Winner', 'Community Founder'],
+        imageUrl: makeSvgDataUri(
+            'EDUCATION & AWARDS',
+            'Engineering • Speaking • Community',
+            '#db2777',
+            '#500724',
+            'ED'
+        ),
+        bullets: [
+            'Bachelor of Engineering, Savitribai Phule Pune University, Nashik',
+            'Diploma in Information Technology, Government Polytechnic, Nashik (2016)',
+            'Flash Speaker at GopherCon 2024: New Web Features and Building Smart Web Applications',
+            'Winner, Sakal Innovation Fest 2018; founder of MahaWiki, a 300+ member tech community'
+        ]
+    },
 
-        const DEFAULT_BILLBOARD_CONFIG = [
-            // --- 6 ON-TRACK RESUME BILLBOARDS ---
-            {
-                id: 'profile',
-                locationType: 'track',
-                t: 0.10,
-                side: -1,
-                tag: '01 // EXECUTIVE PROFILE',
-                title: 'ALEX RIVERA',
-                subtitle: 'Senior Creative Technologist & Full-Stack 3D Engineer',
-                accent: '#06b6d4',
-                badges: ['7+ Yrs Exp', 'WebGL / Three.js', 'System Architect'],
-                imageUrl: makeSvgDataUri('ALEX RIVERA', '3D & Full-Stack Lead', '#0891b2', '#1e3a8a', 'AR'),
-                bullets: [
-                    '7+ years crafting high-impact WebGL, Three.js & distributed cloud apps',
-                    'Architected real-time 3D telemetry & data visualizations for 2M+ users',
-                    'Blends interactive game physics with accessible enterprise UX',
-                    'Location: San Francisco / Remote  |  Portfolio: alexrivera.dev'
-                ]
-            },
-            {
-                id: 'skills',
-                locationType: 'track',
-                t: 0.25,
-                side: 1,
-                tag: '02 // TECHNICAL ARSENAL',
-                title: 'CORE SKILLS & STACK',
-                subtitle: '3D Graphics, Frontend Architecture & Cloud Backend',
-                accent: '#3b82f6',
-                badges: ['Three.js', 'D3.js', 'TypeScript', 'React', 'Node/Go'],
-                imageUrl: makeSvgDataUri('TECH STACK', 'WebGL • D3 • Cloud', '#2563eb', '#0f172a', '3D'),
-                bullets: [
-                    '3D & Data: Three.js, WebGL, GLSL Shaders, D3.js, Cannon.js',
-                    'Frontend: TypeScript, React 19, Next.js, Tailwind CSS, WebAudio',
-                    'Backend & Cloud: Node.js, Python, Go, PostgreSQL, AWS, Docker',
-                    'Performance: 60FPS spatial indexing, GPU instancing, WebWorkers'
-                ]
-            },
-            {
-                id: 'exp1',
-                locationType: 'track',
-                t: 0.42,
-                side: -1,
-                tag: '03 // WORK EXPERIENCE',
-                title: 'LEAD 3D ENGINEER @ HYPERION',
-                subtitle: '2023 — PRESENT | Real-Time Digital Twins & EV Telemetry',
-                accent: '#10b981',
-                badges: ['Autonomous EV', 'Digital Twins', 'Team Lead'],
-                imageUrl: makeSvgDataUri('HYPERION LABS', 'Lead 3D Engineer', '#059669', '#064e3b', 'HL'),
-                bullets: [
-                    'Spearheaded browser-based autonomous vehicle & EV telemetry platform',
-                    'Reduced 3D scene memory footprint by 58% via custom LOD pipelines',
-                    'Mentored 8 engineers across WebGL rendering and D3 analytics',
-                    'Integrated live streams rendering 100k+ spatial sensors at 60 FPS'
-                ]
-            },
-            {
-                id: 'exp2',
-                locationType: 'track',
-                t: 0.58,
-                side: 1,
-                tag: '04 // PREVIOUS ROLE',
-                title: 'SENIOR DEV @ NEXUS STUDIO',
-                subtitle: '2020 — 2023 | Interactive Automotive Configurators',
-                accent: '#f59e0b',
-                badges: ['Awwwards Winner', '3D Configurators', 'WebRTC'],
-                imageUrl: makeSvgDataUri('NEXUS STUDIO', 'Senior Full-Stack', '#d97706', '#451a03', 'NX'),
-                bullets: [
-                    'Delivered 15+ interactive 3D automotive & product configurators',
-                    'Built real-time collaborative canvas tools using WebRTC & CRDTs',
-                    'Boosted customer conversion by 34% with interactive 3D previews',
-                    'FWA & Awwwards Site of the Day Winner (2022)'
-                ]
-            },
-            {
-                id: 'projects',
-                locationType: 'track',
-                t: 0.74,
-                side: -1,
-                tag: '05 // FEATURED PROJECTS',
-                title: 'OPEN-SOURCE & R&D',
-                subtitle: 'Pushing the Web Platform to Native Speeds',
-                accent: '#a855f7',
-                badges: ['AeroSim', 'ChronosD3', 'WebAudio Synth'],
-                imageUrl: makeSvgDataUri('R&D LABS', 'Open Source Creator', '#9333ea', '#3b0764', 'OS'),
-                bullets: [
-                    'AeroSim Web: Flight dynamics & weather shader engine in Three.js',
-                    'ChronosD3: High-frequency financial & racing telemetry chart suite',
-                    'SynthWave Audio: Zero-dependency procedural WebAudio synthesizer',
-                    'Resume World Tour: Multi-track 3D portfolio with JSON live editor'
-                ]
-            },
-            {
-                id: 'education',
-                locationType: 'track',
-                t: 0.90,
-                side: 1,
-                tag: '06 // EDUCATION & HONORS',
-                title: 'B.S. COMPUTER SCIENCE',
-                subtitle: 'Computer Graphics & Human-Computer Interaction',
-                accent: '#ec4899',
-                badges: ['GPA 3.92', 'Magna Cum Laude', 'AWS Certified'],
-                imageUrl: makeSvgDataUri('UNIVERSITY', 'B.S. Comp Sci', '#db2777', '#500724', 'CS'),
-                bullets: [
-                    'Graduated Magna Cum Laude — GPA 3.92 / 4.0',
-                    'Published Thesis on Real-Time Weather & Terrain Particle Physics',
-                    '1st Place Winner — Global WebGL Game Jam (2023)',
-                    'AWS Certified Solutions Architect & Khronos Group Contributor'
-                ]
-            },
+    // --- 3 ANIMATED LIGHT POSTER BILLBOARDS ---
+    {
+        id: 'poster_tour',
+        locationType: 'track',
+        display: 'poster',
+        t: 0.18,
+        side: 1,
+        tag: 'LIGHT POSTER // CAREER JOURNEY',
+        title: 'ANKITKUMAR SINGH',
+        subtitle: '7 years • Angular specialist • Building impactful web products',
+        accent: '#ec4899',
+        badges: ['Angular Expert', 'Fintech', 'Community Builder'],
+        imageUrl: makePosterSvgDataUri({
+            kicker: 'ENGINEERING THE WEB',
+            lines: ['FRONTEND', 'WORLD TOUR'],
+            sub: '7 years • Angular • Enterprise Engineering',
+            c1: '#1e0b3a',
+            c2: '#7c1d6f',
+            c3: '#f472b6'
+        }),
+        bullets: [
+            'Explore a career spanning fintech, enterprise SaaS, and identity management',
+            'Specializing in Angular architecture, reusable UI systems, and API integrations',
+            'From enterprise applications to independent products and developer tools',
+            'Discover experience, projects, technical skills, and community contributions'
+        ]
+    },
+    {
+        id: 'poster_hire',
+        locationType: 'track',
+        display: 'poster',
+        t: 0.50,
+        side: -1,
+        tag: 'LIGHT POSTER // LETS CONNECT',
+        title: 'LET’S BUILD TOGETHER',
+        subtitle: 'Senior Frontend Engineer | Angular Specialist',
+        accent: '#22d3ee',
+        badges: ['Angular', 'Frontend Architecture', 'Pune, India'],
+        imageUrl: makePosterSvgDataUri({
+            kicker: 'CONNECT WITH ANKIT',
+            lines: ['LET’S BUILD', 'SOMETHING GREAT'],
+            sub: 'Angular • TypeScript • Modern Web',
+            c1: '#04223a',
+            c2: '#0e7490',
+            c3: '#22d3ee'
+        }),
+        bullets: [
+            'Email: thedevankit@gmail.com',
+            'Phone: +91 8485049578 | Location: Pune, India',
+            'LinkedIn, GitHub, and dev.to: add your profile URLs to the JSON',
+            'Interested in scalable frontend architecture, product engineering, and developer communities'
+        ]
+    },
+    {
+        id: 'poster_impact',
+        locationType: 'track',
+        display: 'poster',
+        t: 0.82,
+        side: 1,
+        tag: 'LIGHT POSTER // IMPACT',
+        title: 'BUILT TO MAKE AN IMPACT',
+        subtitle: 'Engineering outcomes beyond the code',
+        accent: '#f59e0b',
+        badges: ['100+ Sessions', '300+ Community', '100+ Product Users'],
+        imageUrl: makePosterSvgDataUri({
+            kicker: 'BY THE NUMBERS',
+            lines: ['7 YEARS', 'OF IMPACT'],
+            sub: '100+ sessions • 300+ community members',
+            c1: '#2a1203',
+            c2: '#b45309',
+            c3: '#fbbf24'
+        }),
+        bullets: [
+            '7 years of frontend and full-stack engineering experience',
+            '100+ workshops, technical sessions, webinars, and guest lectures',
+            'Founded MahaWiki, a 300+ member technology and open-source community',
+            'ReviewMe.Tech reached 100+ users organically; Banor Capital load times improved by 10%'
+        ]
+    },
 
-            // --- 3 ANIMATED LIGHT POSTER BILLBOARDS (full-bleed art + chasing marquee bulbs) ---
-            {
-                id: 'poster_tour',
-                locationType: 'track',
-                display: 'poster',
-                t: 0.18,
-                side: 1,
-                tag: 'LIGHT POSTER // WORLD TOUR',
-                title: 'RESUME WORLD TOUR',
-                subtitle: '7 circuits • 4 rivals • 1 candidate worth hiring',
-                accent: '#ec4899',
-                badges: ['Animated Marquee', 'Full-Bleed Art', 'Live JSON'],
-                imageUrl: makePosterSvgDataUri({ kicker: 'NOW TOURING', lines: ['RESUME', 'WORLD TOUR'], sub: '7 circuits • 4 rivals • 1 candidate', c1: '#1e0b3a', c2: '#7c1d6f', c3: '#f472b6' }),
-                bullets: [
-                    'Animated light poster with chasing 3D marquee bulbs',
-                    'Swap the artwork by editing imageUrl in the JSON editor',
-                    'Posters unlock discovery points just like billboards',
-                    'Two more Light Posters are hidden around every circuit'
-                ]
-            },
-            {
-                id: 'poster_hire',
-                locationType: 'track',
-                display: 'poster',
-                t: 0.50,
-                side: -1,
-                tag: 'LIGHT POSTER // NOW HIRING',
-                title: 'HIRE THE DRIVER',
-                subtitle: 'Staff / Lead 3D & Full-Stack Engineer',
-                accent: '#22d3ee',
-                badges: ['Open to Roles', 'Remote Friendly', 'Fast Response'],
-                imageUrl: makePosterSvgDataUri({ kicker: 'AVAILABLE NOW', lines: ['HIRE THE', 'DRIVER'], sub: 'Staff / Lead 3D and Full-Stack Engineer', c1: '#04223a', c2: '#0e7490', c3: '#22d3ee' }),
-                bullets: [
-                    'Open to Staff and Lead 3D / Full-Stack roles',
-                    'Remote-friendly • replies within a day',
-                    'Email: alex@alexrivera.dev',
-                    'Portfolio: alexrivera.dev'
-                ]
-            },
-            {
-                id: 'poster_impact',
-                locationType: 'track',
-                display: 'poster',
-                t: 0.82,
-                side: 1,
-                tag: 'LIGHT POSTER // IMPACT',
-                title: '2M+ USERS @ 60 FPS',
-                subtitle: 'Numbers from the road so far',
-                accent: '#f59e0b',
-                badges: ['2M+ Users', '-58% Memory', '+34% Conversion'],
-                imageUrl: makePosterSvgDataUri({ kicker: 'BY THE NUMBERS', lines: ['2M+ USERS', '60 FPS'], sub: '58% less memory • 34% more conversion', c1: '#2a1203', c2: '#b45309', c3: '#fbbf24' }),
-                bullets: [
-                    '2M+ users on real-time 3D telemetry platforms',
-                    '58% smaller 3D scene memory via custom LOD pipelines',
-                    '34% conversion lift from interactive 3D previews',
-                    '100k+ live spatial sensors rendered at 60 FPS'
-                ]
-            },
+    // --- 4 OFF-ROAD FREE-LAND SECRET / INFO BILLBOARDS ---
+    {
+        id: 'freeland_ai',
+        locationType: 'freeland',
+        x: 0,
+        z: -115,
+        ry: 0.2,
+        tag: 'FREE-LAND // AI & PERSONAL PRODUCTS',
+        title: 'REVIEWME.TECH',
+        subtitle: 'AI-Powered Developer Profile Review & Learning',
+        accent: '#f97316',
+        badges: ['Next.js', 'AI APIs', '100+ Users'],
+        imageUrl: makeSvgDataUri(
+            'REVIEWME.TECH',
+            'AI-Powered Career Platform',
+            '#ea580c',
+            '#431407',
+            'AI'
+        ),
+        bullets: [
+            'Built an AI-powered platform to analyze GitHub, resumes, LinkedIn, and blogs',
+            'Generates hirability scores, skill-gap analysis, and personalized learning roadmaps',
+            'Includes task tracking and structured daily assignments for early-career developers',
+            'Reached 100+ users organically using AI-assisted development workflows'
+        ]
+    },
+    {
+        id: 'freeland_ev',
+        locationType: 'freeland',
+        x: -165,
+        z: 45,
+        ry: 1.1,
+        tag: 'FREE-LAND // STARTUP ENGINEERING',
+        title: 'CHOCOLATE STAY',
+        subtitle: 'Founding Team Member & Engineering Lead | 2022–2023',
+        accent: '#eab308',
+        badges: ['Team of 6', 'React', 'Flutter & Node.js'],
+        imageUrl: makeSvgDataUri(
+            'CHOCOLATE STAY',
+            'Startup Product Engineering',
+            '#ca8a04',
+            '#422006',
+            'CS'
+        ),
+        bullets: [
+            'Helped build a pod and micro-stay platform for affordable hourly hotel bookings',
+            'Led a cross-functional engineering team of 6 developers',
+            'Worked across React, Flutter, Node.js, and MongoDB',
+            'Owned product decisions, code reviews, developer mentoring, and MVP delivery'
+        ]
+    },
+    {
+        id: 'freeland_hobbies',
+        locationType: 'freeland',
+        x: 155,
+        z: 20,
+        ry: -0.9,
+        tag: 'FREE-LAND // COMMUNITY & KNOWLEDGE',
+        title: 'BEYOND THE CODE',
+        subtitle: 'Developer Advocacy, Open Source & Technical Speaking',
+        accent: '#14b8a6',
+        badges: ['MahaWiki', 'Dev.to', '100+ Sessions'],
+        imageUrl: makeSvgDataUri(
+            'COMMUNITY LAB',
+            'Sharing Knowledge & Growing Together',
+            '#0d9488',
+            '#042f2e',
+            'MK'
+        ),
+        bullets: [
+            'Founded MahaWiki, a 300+ member online technology community',
+            'Published 2 Chrome extensions: Timesheet Automator and GPT Prompts by Ankitkumar',
+            'Writes Angular tutorials and frontend development articles on dev.to and Medium',
+            'Delivered technical workshops, webinars, and guest lectures at colleges and organizations'
+        ]
+    },
+    {
+        id: 'freeland_contact',
+        locationType: 'freeland',
+        x: -35,
+        z: 165,
+        ry: 2.8,
+        tag: 'FREE-LAND // CONTACT & CONNECT',
+        title: 'LET’S CONNECT',
+        subtitle: 'Ankitkumar Singh | Senior Frontend Engineer',
+        accent: '#38bdf8',
+        badges: ['Angular Specialist', 'Pune, India', 'Open to Connections'],
+        imageUrl: makeSvgDataUri(
+            'CONTACT ANKIT',
+            'thedevankit@gmail.com',
+            '#0284c7',
+            '#082f49',
+            '@'
+        ),
+        bullets: [
+            'Email: thedevankit@gmail.com | Phone: +91 8485049578',
+            'LinkedIn: add your profile URL | GitHub: add your profile URL',
+            'Blog: dev.to/thedevankit | Medium: add your profile URL',
+            'Thanks for exploring Ankitkumar Singh’s interactive resume world!'
+        ]
+    }
+];
 
-            // --- 4 OFF-ROAD FREE-LAND SECRET / INFO BILLBOARDS ---
-            {
-                id: 'freeland_ai',
-                locationType: 'freeland',
-                x: 0,
-                z: -115,
-                ry: 0.2,
-                tag: 'FREE-LAND // AI & SHADER LAB',
-                title: 'GENERATIVE 3D & AI R&D',
-                subtitle: 'Off-Road Discovery Zone • Central Peak Outpost',
-                accent: '#f97316',
-                badges: ['WebGPU', 'Neural Radiance', 'GLSL'],
-                imageUrl: makeSvgDataUri('AI & SHADERS', 'Free-Land Outpost', '#ea580c', '#431407', 'AI'),
-                bullets: [
-                    'Built real-time Gaussian Splatting & NeRF viewer inside Three.js',
-                    'Custom GLSL atmospheric scattering for day-to-night transitions',
-                    'Procedural terrain generation with off-road suspension physics',
-                    'Bonus +400 Explorer Points for discovering this Free-Land Board!'
-                ]
-            },
-            {
-                id: 'freeland_ev',
-                locationType: 'freeland',
-                x: -165,
-                z: 45,
-                ry: 1.1,
-                tag: 'FREE-LAND // AUTOMOTIVE HMI',
-                title: 'NEXT-GEN EV COCKPIT UI',
-                subtitle: 'Inspired by Mahindra BE 6 & Cybertruck Architecture',
-                accent: '#eab308',
-                badges: ['3D HMI', 'CAN-Bus Telemetry', '60FPS HUD'],
-                imageUrl: makeSvgDataUri('EV COCKPIT', 'Automotive 3D HMI', '#ca8a04', '#422006', 'EV'),
-                bullets: [
-                    'Designed 3D ADAS surroundings visualizer for next-gen electric SUVs',
-                    'Real-time battery thermal & torque vectoring D3.js HUD widgets',
-                    'Zero-latency input pipeline ensuring responsive vehicle dynamics',
-                    'Supports live OTA JSON configuration for road-side digital signage'
-                ]
-            },
-            {
-                id: 'freeland_hobbies',
-                locationType: 'freeland',
-                x: 155,
-                z: 20,
-                ry: -0.9,
-                tag: 'FREE-LAND // BEYOND CODE',
-                title: 'SIM RACING & MOUNTAINEERING',
-                subtitle: 'Passions Outside Software Engineering',
-                accent: '#14b8a6',
-                badges: ['Rally Sim', 'Alpine Trekking', 'Synth Music'],
-                imageUrl: makeSvgDataUri('LIFE & HOBBIES', 'Sim Racing & Music', '#0d9488', '#042f2e', 'GO'),
-                bullets: [
-                    'Avid rally sim builder with custom force-feedback telemetry rig',
-                    'High-altitude trekking across Himalayan & Alpine mountain passes',
-                    'Produces analog synthwave soundtracks (like the one playing now!)',
-                    'Speaker at 12+ international Creative Coding & WebGL meetups'
-                ]
-            },
-            {
-                id: 'freeland_contact',
-                locationType: 'freeland',
-                x: -35,
-                z: 165,
-                ry: 2.8,
-                tag: 'FREE-LAND // HIRE & CONNECT',
-                title: 'LET’S BUILD TOGETHER',
-                subtitle: 'Available for Staff / Lead 3D & Full-Stack Roles',
-                accent: '#38bdf8',
-                badges: ['Open to Roles', 'Fast Response', 'Global Remote'],
-                imageUrl: makeSvgDataUri('CONTACT ME', 'alex@alexrivera.dev', '#0284c7', '#082f49', '@'),
-                bullets: [
-                    'Email: alex@alexrivera.dev  |  GitHub: github.com/alexrivera-3d',
-                    'LinkedIn: linkedin.com/in/alexrivera-webgl',
-                    'Tip: Click "JSON" on the top-right HUD to customize all billboards!',
-                    'Thank you for exploring the off-road Free-Land Resume World!'
-                ]
-            }
-        ];
+
+        // const DEFAULT_BILLBOARD_CONFIG = [
+        //     // --- 6 ON-TRACK RESUME BILLBOARDS ---
+        //     {
+        //         id: 'profile',
+        //         locationType: 'track',
+        //         t: 0.10,
+        //         side: -1,
+        //         tag: '01 // EXECUTIVE PROFILE',
+        //         title: 'ALEX RIVERA',
+        //         subtitle: 'Senior Creative Technologist & Full-Stack 3D Engineer',
+        //         accent: '#06b6d4',
+        //         badges: ['7+ Yrs Exp', 'WebGL / Three.js', 'System Architect'],
+        //         imageUrl: makeSvgDataUri('ALEX RIVERA', '3D & Full-Stack Lead', '#0891b2', '#1e3a8a', 'AR'),
+        //         bullets: [
+        //             '7+ years crafting high-impact WebGL, Three.js & distributed cloud apps',
+        //             'Architected real-time 3D telemetry & data visualizations for 2M+ users',
+        //             'Blends interactive game physics with accessible enterprise UX',
+        //             'Location: San Francisco / Remote  |  Portfolio: alexrivera.dev'
+        //         ]
+        //     },
+        //     {
+        //         id: 'skills',
+        //         locationType: 'track',
+        //         t: 0.25,
+        //         side: 1,
+        //         tag: '02 // TECHNICAL ARSENAL',
+        //         title: 'CORE SKILLS & STACK',
+        //         subtitle: '3D Graphics, Frontend Architecture & Cloud Backend',
+        //         accent: '#3b82f6',
+        //         badges: ['Three.js', 'D3.js', 'TypeScript', 'React', 'Node/Go'],
+        //         imageUrl: makeSvgDataUri('TECH STACK', 'WebGL • D3 • Cloud', '#2563eb', '#0f172a', '3D'),
+        //         bullets: [
+        //             '3D & Data: Three.js, WebGL, GLSL Shaders, D3.js, Cannon.js',
+        //             'Frontend: TypeScript, React 19, Next.js, Tailwind CSS, WebAudio',
+        //             'Backend & Cloud: Node.js, Python, Go, PostgreSQL, AWS, Docker',
+        //             'Performance: 60FPS spatial indexing, GPU instancing, WebWorkers'
+        //         ]
+        //     },
+        //     {
+        //         id: 'exp1',
+        //         locationType: 'track',
+        //         t: 0.42,
+        //         side: -1,
+        //         tag: '03 // WORK EXPERIENCE',
+        //         title: 'LEAD 3D ENGINEER @ HYPERION',
+        //         subtitle: '2023 — PRESENT | Real-Time Digital Twins & EV Telemetry',
+        //         accent: '#10b981',
+        //         badges: ['Autonomous EV', 'Digital Twins', 'Team Lead'],
+        //         imageUrl: makeSvgDataUri('HYPERION LABS', 'Lead 3D Engineer', '#059669', '#064e3b', 'HL'),
+        //         bullets: [
+        //             'Spearheaded browser-based autonomous vehicle & EV telemetry platform',
+        //             'Reduced 3D scene memory footprint by 58% via custom LOD pipelines',
+        //             'Mentored 8 engineers across WebGL rendering and D3 analytics',
+        //             'Integrated live streams rendering 100k+ spatial sensors at 60 FPS'
+        //         ]
+        //     },
+        //     {
+        //         id: 'exp2',
+        //         locationType: 'track',
+        //         t: 0.58,
+        //         side: 1,
+        //         tag: '04 // PREVIOUS ROLE',
+        //         title: 'SENIOR DEV @ NEXUS STUDIO',
+        //         subtitle: '2020 — 2023 | Interactive Automotive Configurators',
+        //         accent: '#f59e0b',
+        //         badges: ['Awwwards Winner', '3D Configurators', 'WebRTC'],
+        //         imageUrl: makeSvgDataUri('NEXUS STUDIO', 'Senior Full-Stack', '#d97706', '#451a03', 'NX'),
+        //         bullets: [
+        //             'Delivered 15+ interactive 3D automotive & product configurators',
+        //             'Built real-time collaborative canvas tools using WebRTC & CRDTs',
+        //             'Boosted customer conversion by 34% with interactive 3D previews',
+        //             'FWA & Awwwards Site of the Day Winner (2022)'
+        //         ]
+        //     },
+        //     {
+        //         id: 'projects',
+        //         locationType: 'track',
+        //         t: 0.74,
+        //         side: -1,
+        //         tag: '05 // FEATURED PROJECTS',
+        //         title: 'OPEN-SOURCE & R&D',
+        //         subtitle: 'Pushing the Web Platform to Native Speeds',
+        //         accent: '#a855f7',
+        //         badges: ['AeroSim', 'ChronosD3', 'WebAudio Synth'],
+        //         imageUrl: makeSvgDataUri('R&D LABS', 'Open Source Creator', '#9333ea', '#3b0764', 'OS'),
+        //         bullets: [
+        //             'AeroSim Web: Flight dynamics & weather shader engine in Three.js',
+        //             'ChronosD3: High-frequency financial & racing telemetry chart suite',
+        //             'SynthWave Audio: Zero-dependency procedural WebAudio synthesizer',
+        //             'Resume World Tour: Multi-track 3D portfolio with JSON live editor'
+        //         ]
+        //     },
+        //     {
+        //         id: 'education',
+        //         locationType: 'track',
+        //         t: 0.90,
+        //         side: 1,
+        //         tag: '06 // EDUCATION & HONORS',
+        //         title: 'B.S. COMPUTER SCIENCE',
+        //         subtitle: 'Computer Graphics & Human-Computer Interaction',
+        //         accent: '#ec4899',
+        //         badges: ['GPA 3.92', 'Magna Cum Laude', 'AWS Certified'],
+        //         imageUrl: makeSvgDataUri('UNIVERSITY', 'B.S. Comp Sci', '#db2777', '#500724', 'CS'),
+        //         bullets: [
+        //             'Graduated Magna Cum Laude — GPA 3.92 / 4.0',
+        //             'Published Thesis on Real-Time Weather & Terrain Particle Physics',
+        //             '1st Place Winner — Global WebGL Game Jam (2023)',
+        //             'AWS Certified Solutions Architect & Khronos Group Contributor'
+        //         ]
+        //     },
+
+        //     // --- 3 ANIMATED LIGHT POSTER BILLBOARDS (full-bleed art + chasing marquee bulbs) ---
+        //     {
+        //         id: 'poster_tour',
+        //         locationType: 'track',
+        //         display: 'poster',
+        //         t: 0.18,
+        //         side: 1,
+        //         tag: 'LIGHT POSTER // WORLD TOUR',
+        //         title: 'RESUME WORLD TOUR',
+        //         subtitle: '7 circuits • 4 rivals • 1 candidate worth hiring',
+        //         accent: '#ec4899',
+        //         badges: ['Animated Marquee', 'Full-Bleed Art', 'Live JSON'],
+        //         imageUrl: makePosterSvgDataUri({ kicker: 'NOW TOURING', lines: ['RESUME', 'WORLD TOUR'], sub: '7 circuits • 4 rivals • 1 candidate', c1: '#1e0b3a', c2: '#7c1d6f', c3: '#f472b6' }),
+        //         bullets: [
+        //             'Animated light poster with chasing 3D marquee bulbs',
+        //             'Swap the artwork by editing imageUrl in the JSON editor',
+        //             'Posters unlock discovery points just like billboards',
+        //             'Two more Light Posters are hidden around every circuit'
+        //         ]
+        //     },
+        //     {
+        //         id: 'poster_hire',
+        //         locationType: 'track',
+        //         display: 'poster',
+        //         t: 0.50,
+        //         side: -1,
+        //         tag: 'LIGHT POSTER // NOW HIRING',
+        //         title: 'HIRE THE DRIVER',
+        //         subtitle: 'Staff / Lead 3D & Full-Stack Engineer',
+        //         accent: '#22d3ee',
+        //         badges: ['Open to Roles', 'Remote Friendly', 'Fast Response'],
+        //         imageUrl: makePosterSvgDataUri({ kicker: 'AVAILABLE NOW', lines: ['HIRE THE', 'DRIVER'], sub: 'Staff / Lead 3D and Full-Stack Engineer', c1: '#04223a', c2: '#0e7490', c3: '#22d3ee' }),
+        //         bullets: [
+        //             'Open to Staff and Lead 3D / Full-Stack roles',
+        //             'Remote-friendly • replies within a day',
+        //             'Email: alex@alexrivera.dev',
+        //             'Portfolio: alexrivera.dev'
+        //         ]
+        //     },
+        //     {
+        //         id: 'poster_impact',
+        //         locationType: 'track',
+        //         display: 'poster',
+        //         t: 0.82,
+        //         side: 1,
+        //         tag: 'LIGHT POSTER // IMPACT',
+        //         title: '2M+ USERS @ 60 FPS',
+        //         subtitle: 'Numbers from the road so far',
+        //         accent: '#f59e0b',
+        //         badges: ['2M+ Users', '-58% Memory', '+34% Conversion'],
+        //         imageUrl: makePosterSvgDataUri({ kicker: 'BY THE NUMBERS', lines: ['2M+ USERS', '60 FPS'], sub: '58% less memory • 34% more conversion', c1: '#2a1203', c2: '#b45309', c3: '#fbbf24' }),
+        //         bullets: [
+        //             '2M+ users on real-time 3D telemetry platforms',
+        //             '58% smaller 3D scene memory via custom LOD pipelines',
+        //             '34% conversion lift from interactive 3D previews',
+        //             '100k+ live spatial sensors rendered at 60 FPS'
+        //         ]
+        //     },
+
+        //     // --- 4 OFF-ROAD FREE-LAND SECRET / INFO BILLBOARDS ---
+        //     {
+        //         id: 'freeland_ai',
+        //         locationType: 'freeland',
+        //         x: 0,
+        //         z: -115,
+        //         ry: 0.2,
+        //         tag: 'FREE-LAND // AI & SHADER LAB',
+        //         title: 'GENERATIVE 3D & AI R&D',
+        //         subtitle: 'Off-Road Discovery Zone • Central Peak Outpost',
+        //         accent: '#f97316',
+        //         badges: ['WebGPU', 'Neural Radiance', 'GLSL'],
+        //         imageUrl: makeSvgDataUri('AI & SHADERS', 'Free-Land Outpost', '#ea580c', '#431407', 'AI'),
+        //         bullets: [
+        //             'Built real-time Gaussian Splatting & NeRF viewer inside Three.js',
+        //             'Custom GLSL atmospheric scattering for day-to-night transitions',
+        //             'Procedural terrain generation with off-road suspension physics',
+        //             'Bonus +400 Explorer Points for discovering this Free-Land Board!'
+        //         ]
+        //     },
+        //     {
+        //         id: 'freeland_ev',
+        //         locationType: 'freeland',
+        //         x: -165,
+        //         z: 45,
+        //         ry: 1.1,
+        //         tag: 'FREE-LAND // AUTOMOTIVE HMI',
+        //         title: 'NEXT-GEN EV COCKPIT UI',
+        //         subtitle: 'Inspired by Mahindra BE 6 & Cybertruck Architecture',
+        //         accent: '#eab308',
+        //         badges: ['3D HMI', 'CAN-Bus Telemetry', '60FPS HUD'],
+        //         imageUrl: makeSvgDataUri('EV COCKPIT', 'Automotive 3D HMI', '#ca8a04', '#422006', 'EV'),
+        //         bullets: [
+        //             'Designed 3D ADAS surroundings visualizer for next-gen electric SUVs',
+        //             'Real-time battery thermal & torque vectoring D3.js HUD widgets',
+        //             'Zero-latency input pipeline ensuring responsive vehicle dynamics',
+        //             'Supports live OTA JSON configuration for road-side digital signage'
+        //         ]
+        //     },
+        //     {
+        //         id: 'freeland_hobbies',
+        //         locationType: 'freeland',
+        //         x: 155,
+        //         z: 20,
+        //         ry: -0.9,
+        //         tag: 'FREE-LAND // BEYOND CODE',
+        //         title: 'SIM RACING & MOUNTAINEERING',
+        //         subtitle: 'Passions Outside Software Engineering',
+        //         accent: '#14b8a6',
+        //         badges: ['Rally Sim', 'Alpine Trekking', 'Synth Music'],
+        //         imageUrl: makeSvgDataUri('LIFE & HOBBIES', 'Sim Racing & Music', '#0d9488', '#042f2e', 'GO'),
+        //         bullets: [
+        //             'Avid rally sim builder with custom force-feedback telemetry rig',
+        //             'High-altitude trekking across Himalayan & Alpine mountain passes',
+        //             'Produces analog synthwave soundtracks (like the one playing now!)',
+        //             'Speaker at 12+ international Creative Coding & WebGL meetups'
+        //         ]
+        //     },
+        //     {
+        //         id: 'freeland_contact',
+        //         locationType: 'freeland',
+        //         x: -35,
+        //         z: 165,
+        //         ry: 2.8,
+        //         tag: 'FREE-LAND // HIRE & CONNECT',
+        //         title: 'LET’S BUILD TOGETHER',
+        //         subtitle: 'Available for Staff / Lead 3D & Full-Stack Roles',
+        //         accent: '#38bdf8',
+        //         badges: ['Open to Roles', 'Fast Response', 'Global Remote'],
+        //         imageUrl: makeSvgDataUri('CONTACT ME', 'alex@alexrivera.dev', '#0284c7', '#082f49', '@'),
+        //         bullets: [
+        //             'Email: alex@alexrivera.dev  |  GitHub: github.com/alexrivera-3d',
+        //             'LinkedIn: linkedin.com/in/alexrivera-webgl',
+        //             'Tip: Click "JSON" on the top-right HUD to customize all billboards!',
+        //             'Thank you for exploring the off-road Free-Land Resume World!'
+        //         ]
+        //     }
+        // ];
 
         let BILLBOARD_CONFIG_JSON = JSON.parse(JSON.stringify(DEFAULT_BILLBOARD_CONFIG));
         const loadedImagesCache = {};
@@ -1300,7 +1631,12 @@
             { name: 'ANEE', type: 'buggy',      paint: 0xf472b6, color: '#f472b6', speed: 115, lane: 10, freq: 0.65 },
             { name: 'PRASHANT',   type: 'rally',    paint: 0x22d3ee, color: '#22d3ee', speed: 80, lane: 11, freq: 0.70 },
             { name: 'AJINKYA',  type: 'buggy',    paint: 0xa3e635, color: '#a3e635', speed: 88, lane: 6,  freq: 0.95 },
-            { name: 'PINTYA', type: 'hypercar',      paint: 0xf472b6, color: '#f472b6', speed: 65, lane: 10, freq: 0.49 }
+            { name: 'NEW', type: 'hypercar',      paint: 0xf472b6, color: '#f472b6', speed: 65, lane: 10, freq: 0.49 },
+            { name: 'ALEX',  type: 'hypercar', paint: 0xef4004, color: '#f4FFE4', speed: 67, lane: 8,  freq: 0.55 },
+            { name: 'KALIYA',   type: 'rally',    paint: 0x2003ee, color: '#22d3dd', speed: 82, lane: 7, freq: 0.66 },
+            { name: 'PAL',  type: 'buggy',    paint: 0xa3f635, color: '#ffdd00', speed: 55, lane: 4,  freq: 0.50 },
+            { name: 'NEA', type: 'buggy',      paint: 0xf4ffb6, color: '#f4aab6', speed: 35, lane: 6, freq: 0.45 },
+            { name: 'ROSH',   type: 'rally',    paint: 0xf200ee, color: '#22d300', speed: 60, lane: 8, freq: 0.78 },            
         ];
 
         const TRACK_CONFIGS = [
@@ -4097,11 +4433,11 @@
             modal.classList.add('flex');
         }
 
-        function closeJsonModal() {
-            const modal = document.getElementById('json-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
+        // function closeJsonModal() {
+        //     const modal = document.getElementById('json-modal');
+        //     modal.classList.add('hidden');
+        //     modal.classList.remove('flex');
+        // }
 
         function setupInputListeners() {
             window.addEventListener('keydown', (e) => {
@@ -4174,28 +4510,28 @@
             // JSON Configurator Modal Buttons
             document.getElementById('btn-open-json').addEventListener('click', openJsonModal);
             document.getElementById('btn-open-json-start').addEventListener('click', openJsonModal);
-            document.getElementById('btn-close-json').addEventListener('click', closeJsonModal);
-            document.getElementById('btn-cancel-json').addEventListener('click', closeJsonModal);
+            // document.getElementById('btn-close-json').addEventListener('click', closeJsonModal);
+            // document.getElementById('btn-cancel-json').addEventListener('click', closeJsonModal);
 
-            document.getElementById('btn-reset-json').addEventListener('click', () => {
-                BILLBOARD_CONFIG_JSON = JSON.parse(JSON.stringify(DEFAULT_BILLBOARD_CONFIG));
-                document.getElementById('json-textarea').value = JSON.stringify(BILLBOARD_CONFIG_JSON, null, 2);
-                rebuildAllBillboards();
-            });
+            // document.getElementById('btn-reset-json').addEventListener('click', () => {
+            //     BILLBOARD_CONFIG_JSON = JSON.parse(JSON.stringify(DEFAULT_BILLBOARD_CONFIG));
+            //     document.getElementById('json-textarea').value = JSON.stringify(BILLBOARD_CONFIG_JSON, null, 2);
+            //     rebuildAllBillboards();
+            // });
 
-            document.getElementById('btn-apply-json').addEventListener('click', () => {
-                const statusEl = document.getElementById('json-status');
-                try {
-                    const parsed = JSON.parse(document.getElementById('json-textarea').value);
-                    if (!Array.isArray(parsed)) throw new Error('Root JSON must be an Array of billboard objects.');
-                    BILLBOARD_CONFIG_JSON = parsed;
-                    rebuildAllBillboards();
-                    closeJsonModal();
-                } catch (err) {
-                    statusEl.textContent = 'Invalid JSON: ' + err.message;
-                    statusEl.className = 'text-xs mt-1.5 text-rose-400 font-semibold block';
-                }
-            });
+            // document.getElementById('btn-apply-json').addEventListener('click', () => {
+            //     const statusEl = document.getElementById('json-status');
+            //     try {
+            //         const parsed = JSON.parse(document.getElementById('json-textarea').value);
+            //         if (!Array.isArray(parsed)) throw new Error('Root JSON must be an Array of billboard objects.');
+            //         BILLBOARD_CONFIG_JSON = parsed;
+            //         rebuildAllBillboards();
+            //         closeJsonModal();
+            //     } catch (err) {
+            //         statusEl.textContent = 'Invalid JSON: ' + err.message;
+            //         statusEl.className = 'text-xs mt-1.5 text-rose-400 font-semibold block';
+            //     }
+            // });
 
             // Start Form Submission
             document.getElementById('start-form').addEventListener('submit', (e) => {
